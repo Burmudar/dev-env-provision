@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  user: william
+  connection: local
+  sudo: true
+  pre_tasks:
+  - name: create programming directory
+    file: path=/home/william/programming state=directory
+  roles:
+    - software
+    - tools
+    - config

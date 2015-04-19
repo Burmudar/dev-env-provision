@@ -1,0 +1,50 @@
+---
+- name: Fetch go
+  git: repo=http://github.com/golang/go version=go1.4.1 dest=/home/william/programming/tools/go
+- name: Check if go has been built
+  stat: path=/home/william/programming/tools/go/bin/go
+  register: gobuilt
+- name: build golang
+  shell: ./all.bash chdir=/home/william/programming/tools/go/src/
+  when: gobuilt.stat.exists == False
+- name: Check if NodeJS has been installed
+  stat: path=/home/william/programming/tools/nodejs/bin/node
+  register: nodebuilt
+- name: Fetch NodeJS
+  get_url: url=http://nodejs.org/dist/v0.12.2/node-v0.12.2-linux-x64.tar.gz dest=/home/william/programming/tools/
+  when: nodebuilt.stat.exists == False
+- name: Extract NodeJS
+  unarchive: src=/home/william/programming/tools/node-v0.12.2-linux-x64.tar.gz dest=/home/william/programming/tools/ owner=william group=william
+  when: nodebuilt.stat.exists == False
+- name: Check if IntelliJ exists
+  stat: path=/home/william/programming/tools/intellij/bin/idea.sh
+  register: intellij
+- name: Fetch IntelliJ 14
+  get_url: url=http://download.jetbrains.com/idea/ideaIC-14.1.1.tar.gz dest=/home/william/programming/tools/
+  when: intellij.stat.exists == False
+- name: Extract IntelliJ 14
+  unarchive: src=/home/william/programming/tools/ideaIC-14.1.1.tar.gz dest=/home/william/programming/tools/
+  when: intellij.stat.exists == False
+- name: Rename IntelliJ directory
+  command: mv /home/william/programming/tools/ideaIC-14.1.1 /home/william/programming/tools/intellij/
+  when: intellij.stat.exists == False
+- name: Check if docker is installed
+  command: 'which docker'
+  register: docker_installed
+- name: Install Docker
+  shell: wget -qO- https://get.docker.com/ | sh
+  when: docker_installed.stdout.find('not found') == 0
+- name: Fetch dotfiles
+  git: repo=http://github.com/Burmudar/dotfiles dest=/home/william/programming/tools/dotfiles
+- name: Link vimrc
+  shell: stow -t /home/william/ vim chdir=/home/william/programming/tools/dotfiles/ 
+  ignore_errors: yes
+- name: Link zshrc
+  shell: stow -t /home/william/ zsh chdir=/home/william/programming/tools/dotfiles/
+  ignore_errors: yes
+- name: Check if shell is ZSH
+  command: 'echo $SHELL'
+  register: shell
+- name: Change default shell to ZSH
+  command: chsh -s /bin/zsh
+  when: shell.stdout.find('/bin/zsh') == -1
