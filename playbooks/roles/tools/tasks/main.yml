@@ -1,32 +1,32 @@
 ---
 - name: Fetch go
-  git: repo=http://github.com/golang/go version=go1.4.1 dest=/home/william/programming/tools/go
+  git: repo=http://github.com/golang/go version=go1.4.1 dest={{ tools_path }}/go
 - name: Check if go has been built
-  stat: path=/home/william/programming/tools/go/bin/go
+  stat: path={{ tools_path }}/go/bin/go
   register: gobuilt
 - name: build golang
-  shell: ./all.bash chdir=/home/william/programming/tools/go/src/
+  shell: ./all.bash chdir={{ tools_path }}/go/src/
   when: gobuilt.stat.exists == False
 - name: Check if NodeJS has been installed
-  stat: path=/home/william/programming/tools/nodejs/bin/node
+  stat: path={{ tools_path }}/nodejs/bin/node
   register: nodebuilt
 - name: Fetch NodeJS
-  get_url: url=http://nodejs.org/dist/v0.12.2/node-v0.12.2-linux-x64.tar.gz dest=/home/william/programming/tools/
+  get_url: url=http://nodejs.org/dist/v0.12.2/node-v0.12.2-linux-x64.tar.gz dest={{ tools_path }}/
   when: nodebuilt.stat.exists == False
 - name: Extract NodeJS
-  unarchive: src=/home/william/programming/tools/node-v0.12.2-linux-x64.tar.gz dest=/home/william/programming/tools/ owner=william group=william
+  unarchive: src={{ tools_path }}/node-v0.12.2-linux-x64.tar.gz dest={{ tools_path }}/ owner=william group=william
   when: nodebuilt.stat.exists == False
 - name: Check if IntelliJ exists
-  stat: path=/home/william/programming/tools/intellij/bin/idea.sh
+  stat: path={{ tools_path }}/intellij/bin/idea.sh
   register: intellij
 - name: Fetch IntelliJ 14
-  get_url: url=http://download.jetbrains.com/idea/ideaIC-14.1.1.tar.gz dest=/home/william/programming/tools/
+  get_url: url=http://download.jetbrains.com/idea/ideaIC-14.1.1.tar.gz dest={{ tools_path }}/
   when: intellij.stat.exists == False
 - name: Extract IntelliJ 14
-  unarchive: src=/home/william/programming/tools/ideaIC-14.1.1.tar.gz dest=/home/william/programming/tools/
+  unarchive: src={{ tools_path }}/ideaIC-14.1.1.tar.gz dest={{ tools_path }}/
   when: intellij.stat.exists == False
 - name: Rename IntelliJ directory
-  command: mv /home/william/programming/tools/ideaIC-14.1.1 /home/william/programming/tools/intellij/
+  command: mv {{ tools_path }}/ideaIC-14.1.1 {{ tools_path }}/intellij/
   when: intellij.stat.exists == False
 - name: Check if docker is installed
   command: 'which docker'
@@ -35,12 +35,12 @@
   shell: wget -qO- https://get.docker.com/ | sh
   when: docker_installed.stdout.find('not found') == 0
 - name: Fetch dotfiles
-  git: repo=http://github.com/Burmudar/dotfiles dest=/home/william/programming/tools/dotfiles
+  git: repo=http://github.com/Burmudar/dotfiles dest={{ tools_path }}/dotfiles
 - name: Link vimrc
-  shell: stow -t /home/william/ vim chdir=/home/william/programming/tools/dotfiles/ 
+  shell: stow -t /home/william/ vim chdir={{ tools_path }}/dotfiles/ 
   ignore_errors: yes
 - name: Link zshrc
-  shell: stow -t /home/william/ zsh chdir=/home/william/programming/tools/dotfiles/
+  shell: stow -t /home/william/ zsh chdir={{ tools_path }}/dotfiles/
   ignore_errors: yes
 - name: Check if shell is ZSH
   command: 'echo $SHELL'
@@ -48,3 +48,5 @@
 - name: Change default shell to ZSH
   command: chsh -s /bin/zsh
   when: shell.stdout.find('/bin/zsh') == -1
+- name: Ensure everything is owned by william user and group
+  file: path={{ tools_path }} recurse=yes owner=william group=william
