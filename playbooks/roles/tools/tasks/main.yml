@@ -28,12 +28,8 @@
 - name: Rename IntelliJ directory
   command: mv {{ tools_path }}/ideaIC-14.1.1 {{ tools_path }}/intellij/
   when: intellij.stat.exists == False
-- name: Check if docker is installed
-  command: 'which docker'
-  register: docker_installed
 - name: Install Docker
   shell: wget -qO- https://get.docker.com/ | sh
-  when: docker_installed.stdout.find('not found') == 0
 - name: Fetch dotfiles
   git: repo=http://github.com/Burmudar/dotfiles dest={{ tools_path }}/dotfiles
 - name: Link vimrc

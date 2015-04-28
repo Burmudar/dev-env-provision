@@ -30,6 +30,11 @@ else
   tput sgr0
   exit 1
 fi
+tput bold
+tput setaf 2
+echo '* Run Desktop Boostrap Playbook';
+ansible-playbook -K playbooks/main.yml -i local-inventory
+tput sgr0
 tput setaf 2
 tput bold
 echo '* Done *'
