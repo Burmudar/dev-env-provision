@@ -1,3 +1,5 @@
 ---
-- name: Add william to tty group
-  shell: gpasswd -a william tty
+- name: Add william to uccp group
+  shell: gpasswd -a william uccp
+- name: Add william to lock group
+  shell: gpasswd -a william lock
