@@ -7,7 +7,13 @@ echo '* Installing curl'
 tput sgr0
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-  sudo apt-get install curl
+    
+    if [ -f /usr/bin/apt ]; then
+        sudo apt-get install curl
+    elif [ -f /usr/bin/pacman ]; then
+        sudo pacman -Syu curl
+    fi
+
 elif [[ "$OSTYPE" == "darwin*" ]]; then
   brew install curl
 else
@@ -21,7 +27,11 @@ tput setaf 2
 echo '* Install Ansible';
 tput sgr0
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-  sudo apt-get install ansible
+    if [ -f /usr/bin/apt ]; then
+        sudo apt-get install ansible
+    elif [ -f /usr/bin/pacman ]; then
+        sudo pacman -Syu ansible
+    fi
 elif [[ "$OSTYPE" == "darwin*" ]]; then
   brew install ansible
 else
@@ -33,7 +43,11 @@ fi
 tput bold
 tput setaf 2
 echo '* Run Desktop Boostrap Playbook';
-ansible-playbook -K playbooks/main.yml -i local-inventory
+if [ -f /usr/bin/pacman ]; then
+    ansible-playbook -K playbooks/main.yml -i arch-inventory
+else
+    ansible-playbook -K playbooks/main.yml -i local-inventory
+fi
 tput sgr0
 tput setaf 2
 tput bold

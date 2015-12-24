@@ -1,0 +1,19 @@
+---
+- name: Install basic required software for Arch Linux
+  pacman: name={{ item }} state=present update_cache=true
+  with_items:
+  - curl
+  - wget
+  - mercurial
+  - git-core
+  - meld
+  - openssh
+  - mosh
+  - units
+  - vim
+  - zsh
+  - firefox
+  - chromium
+  - jdk8-openjdk
+  - vlc
+  - stow

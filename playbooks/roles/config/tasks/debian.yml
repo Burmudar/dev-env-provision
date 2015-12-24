@@ -1,0 +1,3 @@
+---
+- name: Add william to dialout group
+  shell: usermod -a -G dialout william

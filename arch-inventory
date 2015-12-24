@@ -1,3 +1,4 @@
 
 # Desktop bootstrap is only meant for the local desktop
 localhost ansible_python_interpreter=/usr/bin/python2
+

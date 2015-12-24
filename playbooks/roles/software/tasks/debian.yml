@@ -1,0 +1,27 @@
+---
+- name: Install python-software-properties
+  apt: name=python-software-properties state=present
+- name: Add webupd8 ppa for Java
+  apt_repository: repo='ppa:webupd8team/java' state=present
+- name: Accept Oracle license
+  shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+- name: Install basic required software
+  apt: name={{ item }} state=present update_cache=true cache_valid_time=3600
+  with_items:
+  - curl
+  - wget
+  - mercurial
+  - build-essential
+  - git-core
+  - meld
+  - openssh-server
+  - mosh
+  - units
+  - vim-gtk
+  - zsh
+  - firefox
+  - chromium-browser
+  - oracle-java8-installer
+  - flashplugin-installer
+  - vlc
+  - stow
