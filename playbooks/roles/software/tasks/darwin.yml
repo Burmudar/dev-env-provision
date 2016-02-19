@@ -1,0 +1,14 @@
+---
+- name: Install basic required software
+  homebrew: name={{ item }} state=present update_homebrew=true 
+  with_items:
+  - curl
+  - wget
+  - mercurial
+  - git-core
+  - mosh
+  - units
+  - zsh
+  - oracle-java8-installer
+  - vlc
+  - stow

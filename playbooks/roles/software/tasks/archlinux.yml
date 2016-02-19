@@ -1,4 +1,7 @@
 ---
+- name: Become sudo
+  become: yes
+  become_method: sudo
 - name: Install basic required software for Arch Linux
   pacman: name={{ item }} state=present update_cache=true
   with_items:

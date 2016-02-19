@@ -1,3 +1,4 @@
+#!/bin/bash
 echo ''
 tput bold
 tput setaf 5
@@ -14,7 +15,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
         sudo pacman -Syu curl
     fi
 
-elif [[ "$OSTYPE" == "darwin*" ]]; then
+elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew install curl
 else
   tput setaf 1
@@ -32,7 +33,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     elif [ -f /usr/bin/pacman ]; then
         sudo pacman -Syu ansible
     fi
-elif [[ "$OSTYPE" == "darwin*" ]]; then
+elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew install ansible
 else
   tput setaf 1

@@ -1,8 +1,5 @@
 ---
-- name: Installing software specific to Debian OS
-  include: debian.yml
-  when: ansible_os_family == 'Debian'
-
-- name: Installing software specific to Arch Linux OS
-  include: archlinux.yml
-  when: ansible_os_family == 'Archlinux'
+- name: Run tasks based on OS
+  include: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_os_family|lower }}.yml"

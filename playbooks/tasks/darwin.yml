@@ -1,0 +1,5 @@
+---
+- name: create programming directory
+  file: path={{ programming_path }} state=directory
+- name: create tools directory
+  file: path={{ tools_path }} state=directory

@@ -1,0 +1,5 @@
+---
+become_user: william
+home_path: "/Users/William/"
+programming_path: "{{ home_path }}/Programming"
+tools_path: "{{ programming_path }}/tools"

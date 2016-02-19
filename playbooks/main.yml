@@ -2,18 +2,17 @@
 - hosts: localhost
   user: william
   connection: local
-  sudo: true
-  vars:
-    home_path: "/home/william/"
-    programming_path: "{{ home_path }}/programming"
-    tools_path: "{{ programming_path }}/tools"
   pre_tasks:
-  - name: create programming directory
-    file: path={{ programming_path }} state=directory
-  - name: create tools directory
-    file: path={{ tools_path }} state=directory
-  - name: Ensure home directory is owned by william user and group
-    file: path={{ home_path }} recurse=yes owner=william group=william
+  - name: Include OS specific vars
+    include_vars: "{{ item }}"
+    with_first_found:
+      - "vars/{{ ansible_os_family|lower }}.yml"
+      - vars/linux.yml
+  - name: OS specific pre task
+    include: "{{ item }}"
+    with_first_found:
+      - "tasks/{{ ansible_os_family|lower }}.yml"
+      - tasks/default.yml
   roles:
     - software
     - tools

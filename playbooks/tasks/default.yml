@@ -1,0 +1,7 @@
+---
+- name: create programming directory
+  file: path={{ programming_path }} state=directory
+- name: create tools directory
+  file: path={{ tools_path }} state=directory
+- name: Ensure home directory is owned by william user and group
+  file: path={{ home_path }} recurse=yes owner=william group=william

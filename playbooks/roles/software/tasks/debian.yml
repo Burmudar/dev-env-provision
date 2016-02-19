@@ -1,4 +1,7 @@
 ---
+- name: Become sudo
+  become: yes
+  become_method: sudo
 - name: Install python-software-properties
   apt: name=python-software-properties state=present
 - name: Add webupd8 ppa for Java

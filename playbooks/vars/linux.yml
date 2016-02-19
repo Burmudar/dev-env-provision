@@ -1,0 +1,5 @@
+---
+become_user: sudo
+home_path: "/home/william/"
+programming_path: "{{ home_path }}/programming"
+tools_path: "{{ programming_path }}/tools"
