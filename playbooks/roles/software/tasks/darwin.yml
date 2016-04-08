@@ -1,14 +1,26 @@
 ---
+- name: Add Homebrew Cask
+  homebrew_tap: tap=Caskroom/cask state=present
 - name: Install basic required software
   homebrew: name={{ item }} state=present update_homebrew=true 
   with_items:
   - curl
   - wget
   - mercurial
-  - git-core
+  - git
   - mosh
-  - units
+  - gnu-units
   - zsh
-  - oracle-java8-installer
-  - vlc
   - stow
+  - nodejs
+- name: Install software binaries via Cask
+  homebrew_cask: name={{ item }} state=present
+  with_items:
+  - java
+  - google-chrome
+  - vlc
+  - firefox
+  - skype
+  - slack
+  - telegram
+  - intellij-idea

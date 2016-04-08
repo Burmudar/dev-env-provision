@@ -47,7 +47,7 @@ echo '* Run Desktop Boostrap Playbook';
 if [ -f /usr/bin/pacman ]; then
     ansible-playbook -K playbooks/main.yml -i arch-inventory
 else
-    ansible-playbook -K playbooks/main.yml -i local-inventory
+    ansible-playbook -K playbooks/main.yml -i local-inventory -v
 fi
 tput sgr0
 tput setaf 2
