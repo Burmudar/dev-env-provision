@@ -1,8 +1,8 @@
 ---
-- name: Fetch oh-my-zsh
-  shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+- name: Fetch zpresto
+  git: clone=yes recursive=yes repo=https://github.com/sorin-ionescu/prezto.git dest={{ home_path }}/.zprezto
 - name: Fetch dotfiles
-  git: repo=http://github.com/Burmudar/dotfiles dest={{ tools_path }}/dotfiles force=yes
+  git: repo=https://github.com/Burmudar/dotfiles dest={{ tools_path }}/dotfiles force=yes
 - name: Link vimrc
   shell: stow -t {{ home_path }} vim chdir={{ tools_path }}/dotfiles/ 
   ignore_errors: yes
